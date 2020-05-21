@@ -48,7 +48,7 @@ data "aws_alb" "merg_lb" {
 
 data "aws_alb_listener" "merg_listener" {
   load_balancer_arn = "${data.aws_alb.merg_lb.arn}"
-  port = 443
+  port              = 443
 }
 
 resource "aws_alb_target_group" "bagbeer_lb_target_group" {
@@ -59,7 +59,7 @@ resource "aws_alb_target_group" "bagbeer_lb_target_group" {
   target_type = "ip"
 
   health_check {
-    path = "/health"
+    path    = "/health"
     matcher = 200
   }
 }
@@ -134,7 +134,7 @@ resource "aws_ecs_service" "bagbeer_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups = [data.aws_security_group.bagbeer_lb_sg.id]
+    security_groups  = [data.aws_security_group.bagbeer_lb_sg.id]
     assign_public_ip = true
     subnets = [
       data.aws_subnet.subnet.id
