@@ -1,3 +1,11 @@
+terraform {
+  backend "s3" {
+    bucket = "bagbeer-bucket"
+    key    = "bagbeer_state"
+    region = "eu-central-1"
+  }
+}
+
 provider "aws" {
   region = "eu-central-1"
 }
@@ -105,6 +113,10 @@ resource "aws_ecs_task_definition" "bagbeer_service_task_definition" {
         "awslogs-datetime-format": "%Y-%m-%d %H:%M:%S"
       }
     },
+    "environment": [
+      {"name": "ENV", "value": "production"},
+      {"name": "ALLOWED_ORIGIN", "value": "https://pk-api.lab.juiciness.io"}
+    ],
     "secrets": [
       {"name": "POLY_ID", "valueFrom": "${data.aws_ssm_parameter.poly_id.arn}"},
       {"name": "AGRO_API_TOKEN", "valueFrom": "${data.aws_ssm_parameter.api_token.arn}"}

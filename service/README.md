@@ -1,6 +1,6 @@
 # Bagbeer service
 
-### Installation
+### Development environment
 
 1. Install [deno](https://deno.land).
 2. Run this with the correct credentials (PORT is optional and defaults to 3000):
