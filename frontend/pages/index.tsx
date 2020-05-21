@@ -18,7 +18,7 @@ const HomePage = (props: InitialProps) =>
     <App bagBeerStatus={props.bagBeerStatus} />
   </div>
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
   return {
     props: {
       bagBeerStatus: await getCurrentStatus()
