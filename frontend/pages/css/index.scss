@@ -19,8 +19,8 @@ body {
   width: 100vw;
   background-color: #B5EAD7;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -35,7 +35,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: auto 0;
 }
 
 .update-button {
@@ -52,4 +52,22 @@ body {
 .update-button:hover {
   background-color:#828282;
   color: white;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100vw;
+  height: 40px;
+}
+
+.github-logo-link {
+  margin: 10px;
+}
+
+.github-logo {
+  height: 30px;
+  margin: 10px;
 }

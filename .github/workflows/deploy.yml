@@ -41,7 +41,7 @@ jobs:
       run: |
         curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | sudo tee ./ecs-deploy
         sudo chmod +x ./ecs-deploy
-        ./ecs-deploy -c christina-regina -n bagbeer-service -i $ECR_REGISTRY/$ECR_REPOSITORY:latest --timeout 500
+        ./ecs-deploy -c christina-regina -n bagbeer-service -i $ECR_REGISTRY/$ECR_REPOSITORY:latest --timeout 900
 
     - name: Logout of Amazon ECR
       run: docker logout ${{ steps.login-ecr.outputs.registry }}

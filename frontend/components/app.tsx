@@ -25,12 +25,19 @@ const StatusContainer = (props: BagBeerStatusProps) =>
     <button className="update-button" onClick={props.update}>Update</button>
   </div>
 
+const GitHubLogo = () =>
+  <div className="logo-container">
+    <a className="github-logo" href="https://github.com/MergHQ/bagbeer">
+      <img className="github-logo" src="github.svg"></img>
+    </a>
+  </div>
 
 const App = (props: Props) => {
   const [bagBeerStatus, setStatus] = useState(props.bagBeerStatus)
 
   return (
     <div className={`container ${typeof bagBeerStatus === 'string' ? 'bad' : bagBeerStatus.status}`}>
+      <GitHubLogo />
       {typeof bagBeerStatus === 'string' ?
         <h1>{bagBeerStatus}</h1> :
         <StatusContainer
