@@ -19,11 +19,9 @@ const HomePage = (props: InitialProps) =>
   </div>
 
 export async function getStaticProps() {
-  if (process.env.NEXT_STATUS_API_URL) {
-    return {
-      props: {
-        bagBeerStatus: await getCurrentStatus()
-      }
+  return {
+    props: {
+      bagBeerStatus: await getCurrentStatus()
     }
   }
 }

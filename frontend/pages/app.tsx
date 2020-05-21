@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import additionalInfo from '../fixtures/statusAdditionalInfo'
 import format from 'date-fns/format'
 import { getCurrentStatus } from '../services/statusService'
+import { useEffect } from 'react'
 
 type BagBeerStatusProps = {
   updated: Date,
@@ -31,7 +32,7 @@ const App = (props: Props) => {
   return (
     <div className={`container ${typeof bagBeerStatus === 'string' ? 'bad' : bagBeerStatus.status}`}>
       {typeof bagBeerStatus === 'string' ?
-        <h1>${bagBeerStatus}</h1> :
+        <h1>{bagBeerStatus}</h1> :
         <StatusContainer
           updated={bagBeerStatus.updated}
           status={bagBeerStatus.status}
