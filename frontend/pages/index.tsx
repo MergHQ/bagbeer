@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import App from './app'
-import { getCurrentStatus } from './services/statusService'
+import { getCurrentStatus } from '../services/statusService'
 
 export type InitialProps = {
   bagBeerStatus: {

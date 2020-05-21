@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import additionalInfo from './fixtures/statusAdditionalInfo'
+import additionalInfo from '../fixtures/statusAdditionalInfo'
 import format from 'date-fns/format'
-import { getCurrentStatus } from './services/statusService'
+import { getCurrentStatus } from '../services/statusService'
 
 type BagBeerStatusProps = {
   updated: Date,
