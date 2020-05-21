@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import App from './app'
+import App from '../components/app'
 import { getCurrentStatus } from '../services/statusService'
 
 export type InitialProps = {
