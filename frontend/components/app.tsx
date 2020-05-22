@@ -20,7 +20,7 @@ type Props = {
 const StatusContainer = (props: BagBeerStatusProps) =>
   <div className="status-container">
     <h1 className="header">{props.status}</h1>
-    <h2>{additionalInfo[props.status]}</h2>
+    <h2 className="additional-info">{additionalInfo[props.status]}</h2>
     <p>{format(new Date(props.updated), 'd.M.yyyy kk:mm')}</p>
     <button className="update-button" onClick={props.update}>Update</button>
   </div>
