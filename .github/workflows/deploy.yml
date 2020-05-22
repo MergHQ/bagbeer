@@ -1,4 +1,4 @@
-name: Demo app deploy
+name: Deploy service
 
 on:
   push:
