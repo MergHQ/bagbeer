@@ -7,13 +7,13 @@ const baseUrl = 'http://api.agromonitoring.com/agro/1.0'
 const buildUrlString = (polyId: Maybe<string> , appId: Maybe<string>) => (resource: string) => {
   const resolvedPolygonId =
     polyId
-    .map(p => `polyid=${p}`)
-    .getOrElse('')
+      .map(p => `polyid=${p}`)
+      .getOrElse('')
 
   const resolvedAppId =
     appId
-    .map(a => `appid=${a}`)
-    .getOrElse('')
+      .map(a => `appid=${a}`)
+      .getOrElse('')
 
     return `${baseUrl}/${resource}?${resolvedPolygonId}&${resolvedAppId}`
 }
@@ -60,5 +60,9 @@ export const fetchCurrentStatus = () =>
   Promise.all([cachedSoilMoisture(), cachedWindSpeed()])
     .then(([moistureData, windSpeed]) => ({
       updated: new Date(moistureData.dt),
-      status: resolveStatus(moistureData.moisture, windSpeed)
+      status: resolveStatus(moistureData.moisture, windSpeed),
+      details: {
+        groundMoisture: moistureData.moisture,
+        windSpeed
+      }
     }))

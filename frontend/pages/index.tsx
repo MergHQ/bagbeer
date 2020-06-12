@@ -6,7 +6,11 @@ import { getCurrentStatus } from '../services/statusService'
 export type InitialProps = {
   bagBeerStatus: {
     updated: Date,
-    status: string
+    status: string,
+    details: {
+      groundMoisture: number,
+      windSpeed: number
+    }
   } | string
 }
 

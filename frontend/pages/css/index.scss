@@ -53,7 +53,26 @@ body {
   transition: background-color 0.1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
+
+.data-button {
+  background: none;
+  border: 1px solid#828282;
+  border-radius: 2px;
+  height: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.1s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0;
+}
+
 .update-button:hover {
+  background-color:#828282;
+  color: white;
+}
+
+.data-button:hover {
   background-color:#828282;
   color: white;
 }
@@ -74,4 +93,14 @@ body {
 .github-logo {
   height: 30px;
   margin: 10px;
+}
+
+.data-container {
+  background-color: black;
+  color: white;
+  margin: 10px;
+}
+
+.data-text {
+  font-size: 10px;
 }
