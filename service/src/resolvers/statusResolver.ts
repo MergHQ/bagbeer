@@ -1,5 +1,5 @@
-import pipe from 'https://deno.land/x/denofun/pipe.ts'
-import curry from 'https://deno.land/x/denofun/curry.ts'
+import pipe from 'https://raw.githubusercontent.com/galkowskit/denofun/master/lib/pipe.ts'
+import curry from 'https://raw.githubusercontent.com/galkowskit/denofun/master/lib/curry.ts'
 
 const scale = ['great', 'good', 'average', 'bad']
 const moistureLimit = 0.25

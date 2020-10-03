@@ -1,6 +1,6 @@
 import maybe, { Maybe } from 'https://raw.githubusercontent.com/MergHQ/denofun/maybe-get-or-else/lib/maybe.ts'
 import memoize from 'https://raw.githubusercontent.com/MergHQ/denofun/memoize-ttl/lib/memoize.ts'
-import { checkError, ApiError } from '../error.ts'
+import { checkError } from '../error.ts'
 import resolveStatus from '../resolvers/statusResolver.ts'
 
 const baseUrl = 'http://api.agromonitoring.com/agro/1.0'
