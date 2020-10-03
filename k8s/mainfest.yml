@@ -1,0 +1,48 @@
+---
+  kind: Service
+  apiVersion: v1
+  metadata:
+    name: bagbeer-service
+  spec:
+    type: LoadBalancer
+    selector:
+      app: bagbeer-service
+    ports:
+      - name: http
+        protocol: TCP
+        port: 443
+        targetPort: 3000
+---
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: bagbeer-service
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: bagbeer-service
+    template:
+      metadata:
+        labels:
+          app: bagbeer-service
+      spec:
+        containers:
+        - name: bagbeer-service
+          image: registry.digitalocean.com/merg-registry/bagbeer-service:latest
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          env:
+            - name: PORT
+              value: 3000
+            - name: PLOY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: bagbeer-service-secrets
+                  key: PLOY_ID
+            - name: AGRO_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: bagbeer-service-secrets
+                  key: AGRO_API_TOKEN

@@ -1,4 +1,4 @@
-name: Deploy service
+name: Bagbeer pipeline
 
 on:
   push:
@@ -11,37 +11,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
+
+    - name: Install doctl
+      uses: digitalocean/action-doctl@v2
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-central-1
+        token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
+    - name: Build, tag, and push image to DO CR
+      if: contains(github.ref, 'refs/heads/master') || contains(github.ref, 'refs/tags/deploy-staging')
       env:
-        ECR_REGISTRY: ${{ secrets.ECR_ID }}
-        ECR_REPOSITORY: bagbeer
+        REGISTRY: ${{ secrets.REGISTRY }}
+        REPOSITORY: bagbeer-service
         IMAGE_TAG: latest
       run: |
-        cd ./service
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-    - name: Deploy ECS
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        ECR_REGISTRY: ${{ secrets.ECR_ID }}
-        ECR_REPOSITORY: bagbeer
-        AWS_DEFAULT_REGION: eu-central-1
-      run: |
-        curl https://raw.githubusercontent.com/silinternational/ecs-deploy/master/ecs-deploy | sudo tee ./ecs-deploy
-        sudo chmod +x ./ecs-deploy
-        ./ecs-deploy -c christina-regina -n bagbeer-service -i $ECR_REGISTRY/$ECR_REPOSITORY:latest --timeout 900
+        doctl registry login
+        docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
+        docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
-    - name: Logout of Amazon ECR
-      run: docker logout ${{ steps.login-ecr.outputs.registry }}
