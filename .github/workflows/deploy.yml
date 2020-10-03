@@ -25,6 +25,7 @@ jobs:
         IMAGE_TAG: latest
       run: |
         doctl registry login
+        cd service
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
