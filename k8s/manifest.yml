@@ -3,6 +3,10 @@
   apiVersion: v1
   metadata:
     name: bagbeer-service
+    annotations:
+      service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+      service.beta.kubernetes.io/do-loadbalancer-hostname: "pk-api.lab.juiciness.io"
+      service.beta.kubernetes.io/do-loadbalancer-cetificate-id: "0123d10a-c557-4ead-91d0-7d15eae83da2"
   spec:
     type: LoadBalancer
     selector:
@@ -29,18 +33,19 @@
       spec:
         containers:
         - name: bagbeer-service
+          imagePullPolicy: Always
           image: registry.digitalocean.com/merg-registry/bagbeer-service:latest
           ports:
             - containerPort: 3000
               protocol: TCP
           env:
             - name: PORT
-              value: 3000
-            - name: PLOY_ID
+              value: "3000"
+            - name: POLY_ID
               valueFrom:
                 secretKeyRef:
                   name: bagbeer-service-secrets
-                  key: PLOY_ID
+                  key: POLY_ID
             - name: AGRO_API_TOKEN
               valueFrom:
                 secretKeyRef:
