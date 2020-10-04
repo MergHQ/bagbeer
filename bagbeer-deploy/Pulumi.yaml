@@ -1,0 +1,3 @@
+name: bagbeer-deploy
+runtime: nodejs
+description: Kubernetes definition for bagbeer service
