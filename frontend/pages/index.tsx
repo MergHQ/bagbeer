@@ -9,7 +9,9 @@ export type InitialProps = {
     status: string,
     details: {
       groundMoisture: number,
-      windSpeed: number
+      windSpeed: number,
+      groundMoistureUpdated: Date,
+      temp: number
     }
   } | string
 }

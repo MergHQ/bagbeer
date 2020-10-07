@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import additionalInfo from '../fixtures/statusAdditionalInfo'
 import format from 'date-fns/format'
 import { getCurrentStatus } from '../services/statusService'
-import { useEffect } from 'react'
 
 type BagBeerStatusProps = {
   updated: Date,
   status: string,
   details: {
     groundMoisture: number,
-    windSpeed: number
+    windSpeed: number,
+    groundMoistureUpdated: Date,
+    temp: number
   }
   update: () => void
 }
@@ -20,20 +21,26 @@ type Props = {
     status: string
     details: {
       groundMoisture: number,
-      windSpeed: number
+      windSpeed: number,
+      groundMoistureUpdated: Date,
+      temp: number
     }
   } | string
 }
 
 type DataContainerProps = {
   groundMoisture: number,
-  windSpeed: number
+  windSpeed: number,
+  groundMoistureUpdated: Date,
+  temp: number
 }
 
 const DataContainer = (props: DataContainerProps) =>
   <div className="data-container">
+    <p className="data-text">Ground moist. updated: {format(new Date(props.groundMoistureUpdated), 'd.M.yyyy kk:mm')}</p>
     <p className="data-text">Ground moisture: {props.groundMoisture}m3/m3</p>
     <p className="data-text">Wind speed: {props.windSpeed}m/s</p>
+    <p className="data-text">Temperature: {props.temp}°C</p>
   </div>
 
 const StatusContainer = (props: BagBeerStatusProps) => {
@@ -44,7 +51,12 @@ const StatusContainer = (props: BagBeerStatusProps) => {
       <h2 className="additional-info">{additionalInfo[props.status]}</h2>
       <button className="data-button" onClick={() => setDataContainerOpen(!dataContainerOpen)}>?</button>
       {dataContainerOpen &&
-        <DataContainer groundMoisture={props.details.groundMoisture} windSpeed={props.details.windSpeed} />}
+        <DataContainer
+          groundMoisture={props.details.groundMoisture}
+          windSpeed={props.details.windSpeed}
+          groundMoistureUpdated={props.details.groundMoistureUpdated}
+          temp={props.details.temp}
+        />}
       <p>{format(new Date(props.updated), 'd.M.yyyy kk:mm')}</p>
       <button className="update-button" onClick={props.update}>Update</button>
     </div>
@@ -75,7 +87,5 @@ const App = (props: Props) => {
     </div>
   )
 }
-
-
 
 export default App

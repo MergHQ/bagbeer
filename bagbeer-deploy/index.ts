@@ -38,6 +38,10 @@ const deployment = new k8s.apps.v1.Deployment('bagbeer-service', {
               {
                 name: 'AGRO_API_TOKEN',
                 valueFrom: getSecretRef('AGRO_API_TOKEN')
+              },
+              {
+                name: 'DARKSKY_TOKEN',
+                valueFrom: getSecretRef('DARKSKY_TOKEN')
               }
             ]
           }
