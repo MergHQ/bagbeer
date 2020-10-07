@@ -1,8 +1,6 @@
 import * as pulumi from '@pulumi/pulumi'
 import * as k8s from '@pulumi/kubernetes'
 
-console.log(process.env.CERT_ID)
-
 const appLabels = { app: 'bagbeer-service' }
 
 const getSecretRef = (secretName: string): pulumi.Input<k8s.types.input.core.v1.EnvVarSource> => ({
@@ -49,25 +47,15 @@ const deployment = new k8s.apps.v1.Deployment('bagbeer-service', {
   },
 })
 
-const frontend = new k8s.core.v1.Service(appLabels.app, {
+const service = new k8s.core.v1.Service(appLabels.app, {
   metadata: {
     name: appLabels.app,
-    annotations: {
-      'service.beta.kubernetes.io/do-loadbalancer-hostname': 'pk-api.lab.juiciness.io',
-      'service.beta.kubernetes.io/do-loadbalancer-certificate-id': process.env.CERT_ID!,
-      'service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https': 'true'
-    },
   },
   spec: {
-    type: 'LoadBalancer',
     selector: appLabels,
     ports: [{
-      name: 'https',
-      protocol: 'TCP',
-      port: 443,
+      port: 80,
       targetPort: 3000
     }],
   }
 })
-
-export const ip = frontend.status.loadBalancer.apply(lb => lb.ingress[0].ip || lb.ingress[0].hostname)
