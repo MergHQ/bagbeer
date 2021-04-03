@@ -1,11 +1,21 @@
-# Bagbeer service
+# BagbeerService
 
-### Development environment
+**TODO: Add description**
 
-1. Install [deno](https://deno.land).
-2. Run this with the correct credentials (PORT is optional and defaults to 3000):
+## Installation
+
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `bagbeer_service` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:bagbeer_service, "~> 0.1.0"}
+  ]
+end
 ```
-export POLY_ID= // Polygon ID configured in agromonitoring
-export AGRO_API_TOKEN= // API token from agromonitoring
-```
-2. Run `deno run --allow-net --allow-env ./src/app.ts`
+
+Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
+and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
+be found at [https://hexdocs.pm/bagbeer_service](https://hexdocs.pm/bagbeer_service).
+

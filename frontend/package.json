@@ -13,7 +13,7 @@
     "typescript": "^3.9.3"
   },
   "scripts": {
-    "dev": "NEXT_STATUS_API_URL=http://localhost:4200/api/status next",
+    "dev": "NEXT_STATUS_API_URL=https://pk-api.lab.juiciness.io/status next",
     "build": "next build",
     "start": "next start"
   },
