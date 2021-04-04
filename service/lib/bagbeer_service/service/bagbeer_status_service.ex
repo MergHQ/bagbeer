@@ -1,23 +1,35 @@
 defmodule BagbeerStatusService do
-  def get_soil_data() do
-    IO.puts("getting soil data")
+  defp get_soil_data() do
     %HTTPoison.Response{ body: body } = Agro.get!("soil")
-    %{dt: body["dt"] * 1000, moisture: body["moisture"]}
+    body
+    |> Map.take(["dt", "moisture"])
+    |> map_keys_to_atom
+    |> Map.update!(:dt, &(&1 * 1000)) # convert to milliseconds
   end
 
-  def get_wind_speed() do
+  defp get_wind_speed() do
     %HTTPoison.Response{ body: body } = Agro.get!("weather")
-    body["wind"]["speed"]
+    body
+    |> Map.get("wind")
+    |> Map.get("speed")
   end
 
-  def get_darksky_temp() do
+  defp get_darksky_temp() do
     %HTTPoison.Response{ body: body } = DarkSky.get!("")
-    {:ok, t} = DateTime.from_unix(body["currently"]["time"] * 1000, :millisecond)
-    %{updated: t, temp: body["currently"]["temperature"]}
+
+    {:ok, updated_ts} = body
+    |> Map.get("currently")
+    |> Map.get("time")
+    |> DateTime.from_unix(:second)
+
+    temperature = body
+    |> Map.get("currently")
+    |> Map.get("temperature")
+
+    %{updated: updated_ts, temp: temperature}
   end
 
-  @spec resolve_status(number, number, any) :: any
-  def resolve_status(soil_moisture, wind, temp) do
+  defp resolve_status(soil_moisture, wind, temp) do
     scale = ["great", "good", "average", "bad"]
     moisture_limit = 0.25
     wind_limit = 17.1
@@ -53,16 +65,17 @@ defmodule BagbeerStatusService do
     }
   end
 
-  def get_status_async() do
+  def get_status_async(), do: Task.async(fn ->
     {:ok, cached} = Cachex.get(:status_cache, "status")
     case cached do
       nil ->
         status = get_status()
         Cachex.put(:status_cache, "status", status)
         Cachex.expire!(:status_cache, "status", :timer.minutes(15))
-        Task.async(fn -> status end)
-      cached_value ->
-        Task.async(fn -> cached_value end)
+        status
+      cached_value -> cached_value
     end
-  end
+  end)
+
+  defp map_keys_to_atom(map), do: map |> Map.new(fn {k, v} -> {String.to_atom(k), v} end)
 end
