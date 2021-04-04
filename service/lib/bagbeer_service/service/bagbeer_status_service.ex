@@ -58,7 +58,7 @@ defmodule BagbeerStatusService do
       status: resolve_status(soil_data.moisture, wind_speed, temperature_data.temp),
       details: %{
         windSpeed: wind_speed,
-        moisture: soil_data.moisture,
+        groundMoisture: soil_data.moisture,
         temp: temperature_data.temp,
         groundMoistureUpdated: soil_data.dt
       }
